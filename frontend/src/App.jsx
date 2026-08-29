@@ -904,27 +904,6 @@ export default function App() {
 
     return (
         <div className="app-frame">
-            <header className="topbar" style={{ '--wails-draggable': 'drag' }}>
-                <div>
-                    <div className="kicker">FIELD KIT / LIVE INVESTIGATION</div>
-                    <h1>Phasmo Field Kit</h1>
-                </div>
-                <div className="topbar-status" role="status" aria-live="polite">
-                    <span className="status-dot" />
-                    <span>{inputStatus}</span>
-                </div>
-                <div className="topbar-actions" style={{ '--wails-draggable': 'no-drag' }}>
-                    <button className="nav-button overlay-nav-button" type="button" disabled={overlayToggleDisabled} title={overlayToggleTitle} onClick={handleOverlayToggle}>
-                        {overlayMode ? 'Edit modules' : 'Show pinned overlay'}
-                    </button>
-                    <button className={`nav-button${settingsOpen ? ' is-active' : ''}`} type="button" onClick={() => setSettingsOpen(!settingsOpen).catch((error) => console.error('settings view failed', error))}>
-                        {settingsOpen ? 'Field view' : 'Settings'}
-                    </button>
-                    <button className="window-button" type="button" aria-label="Minimize window" onClick={WindowMinimise}>MIN</button>
-                    <button className="window-button window-close-button" type="button" aria-label="Exit Phasmo Field Kit" onClick={Quit}>EXIT</button>
-                </div>
-            </header>
-
             <main className="workspace" hidden={overlayMode || settingsOpen}>
                     <GhostSearchModule
                         moduleProps={moduleProps('ghostSearch')}
@@ -1019,9 +998,28 @@ export default function App() {
                 />
             </div>
 
-            <footer className="footer-bar">
-                <span>MANUAL ASSISTANCE ONLY</span>
-                <span>{catalogSource}</span>
+            <footer className="footer-bar" style={{ '--wails-draggable': 'drag' }}>
+                <div className="footer-meta">
+                    <span>MANUAL ASSISTANCE ONLY</span>
+                    <span>{catalogSource}</span>
+                </div>
+                <div className="footer-controls" style={{ '--wails-draggable': 'no-drag' }}>
+                    <span className="footer-title">Phasmo Field Kit</span>
+                    <div className="footer-status" role="status" aria-live="polite">
+                        <span className="status-dot" />
+                        <span>{inputStatus}</span>
+                    </div>
+                    <div className="footer-actions">
+                        <button className="nav-button overlay-nav-button" type="button" disabled={overlayToggleDisabled} title={overlayToggleTitle} onClick={handleOverlayToggle}>
+                            {overlayMode ? 'Edit modules' : 'Show pinned overlay'}
+                        </button>
+                        <button className={`nav-button${settingsOpen ? ' is-active' : ''}`} type="button" onClick={() => setSettingsOpen(!settingsOpen).catch((error) => console.error('settings view failed', error))}>
+                            {settingsOpen ? 'Field view' : 'Settings'}
+                        </button>
+                        <button className="window-button" type="button" aria-label="Minimize window" onClick={WindowMinimise}>MIN</button>
+                        <button className="window-button window-close-button" type="button" aria-label="Exit Phasmo Field Kit" onClick={Quit}>EXIT</button>
+                    </div>
+                </div>
             </footer>
         </div>
     );
