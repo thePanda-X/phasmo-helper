@@ -30,6 +30,7 @@ import {
 } from './components/Dashboard';
 import { Overlay } from './components/Overlay';
 import { Settings } from './components/Settings';
+import { constrainModuleGeometry } from './module-geometry';
 import {
     createEmptyHuntTimerState,
     createEmptyTrackerState,
@@ -86,6 +87,7 @@ export default function App() {
     const globalTapRequestSequence = useRef(0);
     const huntTimersRef = useRef(huntTimers);
     const layoutSaveSequence = useRef(0);
+    const viewportRef = useRef(viewport);
 
     const freeformDashboard = viewport.width > 980;
     const hasPinnedModule = Object.values(layout.modules || {}).some((module) => module.pinned);
@@ -123,6 +125,10 @@ export default function App() {
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
+
+    useEffect(() => {
+        viewportRef.current = viewport;
+    }, [viewport]);
 
     useEffect(() => {
         if (!huntTimers.testActive) {
@@ -454,7 +460,7 @@ export default function App() {
     }
 
     async function toggleModulePin(moduleID) {
-        const current = moduleFromLayout(layout, moduleID);
+        const current = constrainModuleGeometry(moduleFromLayout(layout, moduleID), viewport);
         const next = { ...current, pinned: !current.pinned };
         const sequence = ++layoutSaveSequence.current;
         setLayout((saved) => ({
@@ -482,7 +488,7 @@ export default function App() {
         if (overlayMode || !freeformDashboard || event.button !== 0 || event.target.closest('button, input, select')) {
             return;
         }
-        const current = moduleFromLayout(layout, moduleID);
+        const current = constrainModuleGeometry(moduleFromLayout(layout, moduleID), viewport);
         interactionRef.current = {
             type: 'drag',
             moduleID,
@@ -500,7 +506,7 @@ export default function App() {
         if (overlayMode || !freeformDashboard || event.button !== 0) {
             return;
         }
-        const current = moduleFromLayout(layout, moduleID);
+        const current = constrainModuleGeometry(moduleFromLayout(layout, moduleID), viewport);
         interactionRef.current = {
             type: 'resize',
             moduleID,
@@ -530,13 +536,13 @@ export default function App() {
                 next.x = Math.max(0, Math.round(interaction.initialModule.x + event.clientX - interaction.startX));
                 next.y = Math.max(0, Math.round(interaction.initialModule.y + event.clientY - interaction.startY));
             }
-            interaction.latestModule = next;
+            interaction.latestModule = constrainModuleGeometry(next, viewportRef.current);
             if (interaction.type === 'resize') {
-                interaction.element?.style.setProperty('width', `${next.width}px`);
-                interaction.element?.style.setProperty('height', `${next.height}px`);
+                interaction.element?.style.setProperty('width', `${interaction.latestModule.width}px`);
+                interaction.element?.style.setProperty('height', `${interaction.latestModule.height}px`);
             } else {
-                interaction.element?.style.setProperty('left', `${next.x}px`);
-                interaction.element?.style.setProperty('top', `${next.y}px`);
+                interaction.element?.style.setProperty('left', `${interaction.latestModule.x}px`);
+                interaction.element?.style.setProperty('top', `${interaction.latestModule.y}px`);
             }
         }
 
@@ -598,14 +604,15 @@ export default function App() {
         if (event.key === 'ArrowDown') current.height += step;
         current.width = Math.max(280, Math.min(1200, current.width));
         current.height = Math.max(100, Math.min(1400, current.height));
+        const next = constrainModuleGeometry(current, viewport);
         const previous = moduleFromLayout(layout, moduleID);
         const sequence = ++layoutSaveSequence.current;
         setLayout((saved) => ({
             ...saved,
-            modules: { ...saved.modules, [moduleID]: current },
+            modules: { ...saved.modules, [moduleID]: next },
         }));
         try {
-            const saved = await SetModuleLayout(moduleID, current);
+            const saved = await SetModuleLayout(moduleID, next);
             if (sequence === layoutSaveSequence.current) {
                 setLayout(saved);
             }
@@ -858,7 +865,7 @@ export default function App() {
 
     function moduleProps(moduleID) {
         return {
-            module: moduleFromLayout(layout, moduleID),
+            module: constrainModuleGeometry(moduleFromLayout(layout, moduleID), viewport),
             freeform: freeformDashboard,
             dragging: activeInteraction?.type === 'drag' && activeInteraction.moduleID === moduleID,
             onDragStart: startModuleDrag,

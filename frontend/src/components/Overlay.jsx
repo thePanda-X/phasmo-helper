@@ -1,16 +1,14 @@
 import { useEffect, useState } from 'react';
 
 import { EVIDENCE_OPTIONS } from '../constants';
+import { moduleGeometry } from '../module-geometry';
 import { formatNumber, matchesEvidence, timerDuration } from '../utils';
 
 function overlayGeometry(module, viewport) {
-    const viewportWidth = Math.max(1, viewport.width - 16);
-    const viewportHeight = Math.max(1, viewport.height - 16);
-    const width = Math.min(module.width, viewportWidth);
-    const height = Math.min(module.height, viewportHeight);
+    const { x, y, width, height } = moduleGeometry(module, viewport);
     return {
-        left: `${Math.min(Math.max(0, module.x), Math.max(0, viewport.width - width))}px`,
-        top: `${Math.min(Math.max(0, module.y), Math.max(0, viewport.height - height))}px`,
+        left: `${x}px`,
+        top: `${y}px`,
         width: `${width}px`,
         height: `${height}px`,
     };
