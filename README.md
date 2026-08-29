@@ -1,99 +1,115 @@
 # Phasmo Field Kit
 
-Windows-first Wails scaffold for a manual Phasmophobia no-evidence helper.
-It currently includes a real-time footstep BPM tracker and a local ghost
-reference/search catalog.
+<p align="center">
+  <img src="icon.png" alt="Phasmo Field Kit icon" width="128">
+</p>
 
-## What Works
+<p align="center">
+  A Windows desktop companion for manual, no-evidence Phasmophobia investigations.
+</p>
 
-- Global Spacebar observation on Windows without suppressing the key.
-- Persistent keybind settings for tapping, resetting, full session reset, panel visibility, and opening settings.
-- Floating desktop dashboard modules with persistent positions, sizes, and pin state.
-- Monitor-sized, click-through overlay mode for pinned modules.
-- Session ghost discards, including one-click removal of ghosts outside the measured speed, with individual restore toggles in the lookup.
-- Manual tap button for testing or non-Windows development.
-- Median BPM from the most recent eight valid footstep intervals.
-- Keyboard-repeat rejection and automatic reset after a 2.5 second pause.
-- Estimated base and actual movement speed.
-- Ghost speed shortlist with a 0.175 m/s tolerance.
-- Separate top-three suspect module ranked from measured speed and discarded ghosts.
-- Evidence selector that removes ghosts missing confirmed evidence from the candidate lists.
-- Manual hunt stopwatch, post-hunt cooldown measurement, and ghost test countdown presets.
-- Search by ghost name, alias, or Spanish localized name while displaying English ghost names.
-- Thirty ghost entries through Deildegast in `internal/ghosts/data/ghosts.json`, including evidence, conditional speed profiles, and behavior tells.
+<p align="center">
+  <img src="game-screenshot.png" alt="Phasmo Field Kit overlay shown during a Phasmophobia investigation" width="900">
+</p>
 
-The tracker uses the community footstep model:
+Phasmo Field Kit turns your observed footsteps into a practical ghost-speed shortlist. Tap along with footsteps, compare the measured speed against the ghost roster, track hunts, and keep the tools you need visible in a click-through in-game overlay.
+
+> This is a measurement aid, not an automatic identifier. Missed steps, line of sight, conditional abilities, custom difficulty modifiers, and game updates can affect a result. Confirm a speed match with evidence and behavior.
+
+## Features
+
+- **Footstep BPM tracker** with median BPM from the latest eight valid intervals.
+- **Speed estimates** for base and actual ghost movement speed, including a configurable difficulty modifier.
+- **Ghost shortlist** ranked by measured speed, with a 0.175 m/s matching tolerance.
+- **Evidence filtering** and session-only ghost discards to narrow the roster.
+- **Ghost reference** with search by English name, alias, or Spanish localized name.
+- **Hunt tools** for hunt duration, post-hunt cooldowns, and Demon, Spirit, Moroi, Yurei, and Obambo timing tests.
+- **Global keybinds** for taps, resets, the overlay, and hunt timers.
+- **Pin-and-place modules** with persistent size, position, and pin state.
+- **Windows overlay mode** that is transparent, click-through, monitor-sized, and only visible while Phasmophobia is foregrounded.
+
+## Quick Start
+
+### Prerequisites
+
+- Go 1.25+
+- Node.js 20.19+ or 22.12+
+- [Wails v2.13+](https://wails.io/docs/gettingstarted/installation/)
+
+### Run locally
+
+```bash
+npm ci --prefix frontend
+wails dev
+```
+
+### Build for Windows
+
+```bash
+wails build
+```
+
+The packaged executable is written to `build/bin/`.
+
+## How To Use
+
+1. Start an investigation and press `Space` for each footstep you hear.
+2. After enough taps, check the BPM and base-speed estimate in the **Step Tracker**.
+3. Use the resulting ghost shortlist alongside evidence and behavior tells.
+4. Pin the modules you need, then press `F8` to enter the in-game overlay.
+5. Use **Start hunt** and **End hunt** to record hunt and cooldown timings.
+
+Drag modules by their headings and resize from the bottom-right corner. Positions, sizes, pin state, keybinds, and settings persist between sessions.
+
+## Default Keybinds
+
+| Action | Key |
+| --- | --- |
+| Record a footstep | `Space` |
+| Reset tracker and timers | `F7` |
+| Toggle pinned overlay | `F8` |
+| Open settings | `F9` |
+| Start hunt timer | `F10` |
+| End hunt timer | `F11` |
+| Reset the full session | `F12` |
+
+Full-session reset clears the tracker, timers, selected evidence, and discarded ghosts. Keybinds can be changed in Settings.
+
+## Data And Method
+
+The footstep tracker uses the community conversion model:
 
 ```text
 base speed = BPM / (modifier * (60 + BPM * 0.095))
 ```
 
-At 100% modifier, a 1.7 m/s standard ghost is approximately 121.6 BPM.
-The conversion offset is named and configurable in `internal/bpm/model.go`
-so it can be recalibrated if a game update changes the relationship.
+At a 100% modifier, a 1.7 m/s standard ghost is approximately 121.6 BPM. The conversion offset is named and configurable in `internal/bpm/model.go` so it can be recalibrated after a game update.
 
-This is a measurement aid, not an automatic identification system. Missed
-steps, line of sight, conditional abilities, custom modifiers, and game
-updates can change the result. Speed matches should remain a shortlist until
-confirmed by behavior.
+The embedded catalog contains the current 30-ghost roster through Deildegast, including evidence, conditional speed profiles, and behavior tells. Its initial speed profiles and ghost data draw from:
 
-## Run
+- [Veknmo](https://github.com/ArshdeepGadhri/veknmo)
+- [Pro Game Guides: Ghost moving speeds](https://progameguides.com/phasmophobia/all-ghosts-moving-speeds-in-phasmophobia/)
+- [Phasmophobia Wiki: Ghosts](https://phasmophobia.fandom.com/wiki/Ghost)
+- [Phasmophobia Wiki: Deildegast](https://phasmophobia.fandom.com/wiki/Deildegast)
 
-Install Node.js and the Wails CLI, then run:
+## Development
 
-```text
-npm install --prefix frontend
-wails dev
-```
+Run the full test suite after building the frontend, which is embedded by the Go application:
 
-Build a Windows binary with:
-
-```text
-wails build
-```
-
-Open **Settings** in the panel to record a key or combination. Defaults are
-`Space` for footstep tap, `F7` for tracker and timer reset, `F8` for pinned overlay
-mode, `F9` for settings, `F10` to start a hunt timer, `F11` to end a hunt timer,
-and `F12` for full session reset. Full session reset also clears evidence and
-discarded ghosts.
-Preferences are saved at `%APPDATA%\PhasmoHelper\settings.json`.
-
-On desktop, drag any module by its heading and resize it from the bottom-right
-corner. Positions and sizes are saved immediately. Use **Pin** to keep a module
-visible in the in-game overlay; unpinned modules remain on the dashboard only.
-The dashboard switches to a stacked layout on narrow windows. The menu opens maximized
-by default. Press `F8` to hide
-the menu and show only pinned modules over the current monitor; the overlay is
-transparent and click-through. Press `F8` again to return and edit or resize
-modules. Module layout is saved at
-`%APPDATA%\PhasmoHelper\overlay-layout.json`.
-The title bar includes minimize and exit controls. The Windows tray icon includes
-an **Exit Phasmo Field Kit** command. It exits the helper without closing the game;
-the overlay content is hidden when Phasmophobia is not the foreground application.
-
-Use **Start hunt** when hunt audio begins and **End hunt** when it stops. Ending a
-hunt starts the post-hunt cooldown measurement; starting the next hunt records
-that cooldown. The timer module also includes presets for Demon, Spirit, Moroi,
-Yurei, and Obambo timing tests. Cursed hunts and custom settings can invalidate
-the standard timing comparisons.
-
-Run tests with:
-
-```text
+```bash
+npm run build --prefix frontend
 go test ./...
 ```
 
-## Data References
+For isolated domain tests that do not require the frontend build:
 
-The initial speed profiles follow the public baseline used by the Veknmo
-footstep tool and its published source. Ghost evidence and behavior tells are
-maintained from the current public 30-ghost roster:
+```bash
+go test ./internal/...
+```
 
-- https://github.com/ArshdeepGadhri/veknmo
-- https://progameguides.com/phasmophobia/all-ghosts-moving-speeds-in-phasmophobia/
-- https://phasmophobia.fandom.com/wiki/Ghost
-- https://phasmophobia.fandom.com/wiki/Deildegast
+## Stored Settings
 
-The catalog is intentionally embedded so packaged builds do not depend on the
-working directory. Edit the JSON and rebuild when updating game data.
+On Windows, preferences are saved under `%APPDATA%\PhasmoHelper`:
+
+- `settings.json` stores keybinds and tracker preferences.
+- `overlay-layout.json` stores module layout and pin state.
