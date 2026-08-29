@@ -3,7 +3,6 @@ export const KEYBIND_LABELS = {
     reset: 'Reset tracker and timers',
     fullReset: 'Full session reset',
     toggleOverlay: 'Toggle pinned overlay',
-    openSettings: 'Open settings',
     startHunt: 'Start hunt timer',
     endHunt: 'End hunt timer',
 };
@@ -13,7 +12,6 @@ export const DEFAULT_KEYBINDS = {
     reset: 'F7',
     fullReset: 'F12',
     toggleOverlay: 'F8',
-    openSettings: 'F9',
     startHunt: 'F10',
     endHunt: 'F11',
 };
@@ -25,7 +23,6 @@ export const KEYBIND_ROWS = [
     { action: 'startHunt', description: 'Starts the hunt stopwatch and closes the previous cooldown measurement.' },
     { action: 'endHunt', description: 'Records hunt duration and starts the post-hunt cooldown timer.' },
     { action: 'toggleOverlay', description: 'Shows or hides the pinned floating modules over the game.' },
-    { action: 'openSettings', description: 'Returns to the floating modules.' },
 ];
 
 export const EVIDENCE_OPTIONS = [

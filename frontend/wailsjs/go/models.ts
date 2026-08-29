@@ -157,7 +157,6 @@ export namespace main {
 	    reset: string;
 	    fullReset: string;
 	    toggleOverlay: string;
-	    openSettings: string;
 	    startHunt: string;
 	    endHunt: string;
 	
@@ -171,7 +170,6 @@ export namespace main {
 	        this.reset = source["reset"];
 	        this.fullReset = source["fullReset"];
 	        this.toggleOverlay = source["toggleOverlay"];
-	        this.openSettings = source["openSettings"];
 	        this.startHunt = source["startHunt"];
 	        this.endHunt = source["endHunt"];
 	    }

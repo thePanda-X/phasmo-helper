@@ -753,10 +753,6 @@ export default function App() {
         resetHuntTimers();
     });
     const onRunResetEvent = useEffectEvent((snapshot) => resetSession(snapshot));
-    const onOpenSettingsEvent = useEffectEvent(() => {
-        setSettingsOpen(true).catch((error) => setInputStatus(`Could not open settings: ${error}`));
-    });
-
     useEffect(() => {
         let cancelled = false;
         let unsubscribers = [];
@@ -875,7 +871,6 @@ export default function App() {
                 EventsOn('hunt.timer.end', onHuntEndEvent),
                 EventsOn('tracker.reset', onTrackerResetEvent),
                 EventsOn('run.reset', onRunResetEvent),
-                EventsOn('keybind.openSettings', onOpenSettingsEvent),
             ];
         }
 

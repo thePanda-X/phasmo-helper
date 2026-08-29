@@ -15,7 +15,6 @@ const (
 	keybindReset         = "reset"
 	keybindFullReset     = "fullReset"
 	keybindToggleOverlay = "toggleOverlay"
-	keybindOpenSettings  = "openSettings"
 	keybindStartHunt     = "startHunt"
 	keybindEndHunt       = "endHunt"
 )
@@ -25,7 +24,6 @@ type KeybindSettings struct {
 	Reset         string `json:"reset"`
 	FullReset     string `json:"fullReset"`
 	ToggleOverlay string `json:"toggleOverlay"`
-	OpenSettings  string `json:"openSettings"`
 	StartHunt     string `json:"startHunt"`
 	EndHunt       string `json:"endHunt"`
 }
@@ -54,7 +52,6 @@ func defaultKeybindSettings() KeybindSettings {
 		Reset:         "F7",
 		FullReset:     "F12",
 		ToggleOverlay: "F8",
-		OpenSettings:  "F9",
 		StartHunt:     "F10",
 		EndHunt:       "F11",
 	}
@@ -66,7 +63,6 @@ func (s KeybindSettings) entries() []keybindEntry {
 		{Action: keybindReset, Binding: s.Reset},
 		{Action: keybindFullReset, Binding: s.FullReset},
 		{Action: keybindToggleOverlay, Binding: s.ToggleOverlay},
-		{Action: keybindOpenSettings, Binding: s.OpenSettings},
 		{Action: keybindStartHunt, Binding: s.StartHunt},
 		{Action: keybindEndHunt, Binding: s.EndHunt},
 	}
@@ -108,11 +104,6 @@ func normalizeSettings(settings KeybindSettings) KeybindSettings {
 		settings.ToggleOverlay = binding
 	} else {
 		settings.ToggleOverlay = defaults.ToggleOverlay
-	}
-	if binding, err := normalizeKeybind(settings.OpenSettings); err == nil {
-		settings.OpenSettings = binding
-	} else {
-		settings.OpenSettings = defaults.OpenSettings
 	}
 	if binding, err := normalizeKeybind(settings.StartHunt); err == nil {
 		settings.StartHunt = binding

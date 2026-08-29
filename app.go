@@ -126,8 +126,6 @@ func (a *App) SetKeybind(action, binding string) (KeybindSettings, error) {
 		next.FullReset = normalized
 	case keybindToggleOverlay:
 		next.ToggleOverlay = normalized
-	case keybindOpenSettings:
-		next.OpenSettings = normalized
 	case keybindStartHunt:
 		next.StartHunt = normalized
 	case keybindEndHunt:
@@ -317,13 +315,6 @@ func (a *App) handleKeybind(action string) {
 		}
 	case keybindToggleOverlay:
 		a.SetOverlayMode(!a.overlay.Load())
-	case keybindOpenSettings:
-		if a.ctx == nil {
-			return
-		}
-		a.SetOverlayMode(false)
-		runtime.WindowShow(a.ctx)
-		runtime.EventsEmit(a.ctx, "keybind.openSettings")
 	case keybindStartHunt:
 		if a.ctx != nil {
 			runtime.EventsEmit(a.ctx, "hunt.timer.start")
