@@ -1,0 +1,478 @@
+{
+  "version": "deildegast-30-ghost-roster",
+  "source": "Phasmophobia Fandom ghost pages and current 30-entry roster; behavior and evidence checked against the Deildegast-era roster. See README.md for references.",
+  "ghosts": [
+    {
+      "id": "aswang",
+      "name": "Aswang",
+      "aliases": [],
+      "speedProfiles": [
+        {"label": "base", "baseMPS": 1.53, "condition": "during hunts before line of sight"},
+        {"label": "line of sight", "baseMPS": 2.53, "condition": "maximum after about 8.67 seconds of line of sight"}
+      ],
+      "tells": [
+        "Has a 1.53 m/s hunt base speed and accelerates at 0.075 times its base speed per second while it has line of sight.",
+        "Reaches a maximum of 2.53 m/s after about 8.67 seconds of line of sight, faster than a standard ghost's acceleration.",
+        "Can sometimes start a hunt with no grace period.",
+        "Cannot kill a player inside an available official hiding spot, but targets that spot for the next hunt after reaching it.",
+        "The no-kill hiding-spot weakness does not apply to unofficial hiding places or contracts with no available hiding spots."
+      ]
+    },
+    {
+      "id": "banshee",
+      "name": "Banshee",
+      "aliases": [],
+      "speedProfiles": [{"label": "standard", "baseMPS": 1.7, "condition": "normal movement"}],
+      "tells": [
+        "Selects one hunt target and checks that player's sanity instead of average team sanity.",
+        "Uses a 50% target sanity hunt threshold and ignores non-target players during a hunt when the target is inside.",
+        "Has an increased chance of singing ghost events and can roam toward its target outside hunts.",
+        "Has a 33% chance to produce one of its unique screams through a Parabolic Microphone or Sound Recorder.",
+        "Can only be female, including its name, model, and vocalization."
+      ]
+    },
+    {
+      "id": "dayan",
+      "name": "Dayan",
+      "aliases": [],
+      "speedProfiles": [
+        {"label": "still nearby", "baseMPS": 1.2, "condition": "closest player is still within 10 m"},
+        {"label": "standard", "baseMPS": 1.7, "condition": "no player within 10 m"},
+        {"label": "moving nearby", "baseMPS": 2.25, "condition": "closest player is walking within 10 m"}
+      ],
+      "tells": [
+        "Within 10 m of the ghost, a still closest player lowers its hunt threshold to 45% and fixes its speed at 1.2 m/s.",
+        "Within 10 m of the ghost, a walking closest player raises its hunt threshold to 65% and fixes its speed at 2.25 m/s.",
+        "With no player within 10 m, it uses standard hunt behavior and threshold.",
+        "Its line-of-sight acceleration can build in the background while a player is nearby, then apply after leaving the 10 m range.",
+        "Can only be female, including its name, model, and vocalization."
+      ]
+    },
+    {
+      "id": "deildegast",
+      "name": "Deildegast",
+      "aliases": [],
+      "speedProfiles": [
+        {"label": "fresh", "baseMPS": 3.0, "condition": "start of contract or after a reset"},
+        {"label": "after 9 props", "baseMPS": 2.1, "condition": "9 unique eligible props moved or interacted with"},
+        {"label": "standard", "baseMPS": 1.7, "condition": "13 unique eligible props moved or interacted with"},
+        {"label": "minimum", "baseMPS": 0.4, "condition": "26 or more unique eligible props moved or interacted with"}
+      ],
+      "tells": [
+        "Starts hunts at a fixed 3.0 m/s and has no line-of-sight acceleration.",
+        "Loses 0.1 m/s for each unique prop moved or interacted with by players, including dead players, down to 0.4 m/s.",
+        "Eligible interactions include throwable props, light switches, the fuse box, and taps; cursed possessions, doors, and equipment do not count.",
+        "Reaches 2.1 m/s after 9 eligible props, standard 1.7 m/s after 13, and minimum 0.4 m/s after 26.",
+        "Resets to 3.0 m/s after every hunt and after a crucifix burns.",
+        "Has a 10% chance to interact with doors or light switches instead of the standard 25%, and succeeds on ordinary prop interactions 85% of the time.",
+        "A failed prop interaction sends it to the favourite-room state."
+      ]
+    },
+    {
+      "id": "demon",
+      "name": "Demon",
+      "aliases": [],
+      "localizedNames": ["Demonio"],
+      "speedProfiles": [{"label": "standard", "baseMPS": 1.7, "condition": "normal movement"}],
+      "tells": [
+        "Normally has a 70% hunt sanity threshold instead of 50%.",
+        "Can use a special hunt ability at any sanity level, subject to normal prevention methods.",
+        "Has a minimum hunt cooldown of 20 seconds instead of 25 seconds.",
+        "Incense prevents its hunts for 60 seconds instead of 90 seconds.",
+        "Crucifix effective range is 50% larger: 4.5 m, 6 m, or 7.5 m for tiers I, II, or III."
+      ]
+    },
+    {
+      "id": "deogen",
+      "name": "Deogen",
+      "aliases": [],
+      "speedProfiles": [
+        {"label": "far", "baseMPS": 3.0, "condition": "more than 6 m pathfinding distance from target"},
+        {"label": "near", "baseMPS": 0.4, "condition": "close to target; scales with pathfinding distance"}
+      ],
+      "tells": [
+        "Always has line of sight to players during hunts and cannot be defeated by hiding.",
+        "Moves at 3.0 m/s when more than 6 m from its target, then slows to pathfinding distance multiplied by 0.15 m/s within 6 m, with a 0.4 m/s minimum.",
+        "Chooses the nearest player, focuses them for 10 seconds, and can repick a target every 5-10 seconds.",
+        "Has a 40% hunt sanity threshold and is more likely to interact with doors.",
+        "Has a 33% chance to give a unique heavy breathing response when asked a Spirit Box question within 1 m.",
+        "Is visible for substantially longer during hunts than a standard ghost."
+      ]
+    },
+    {
+      "id": "gallu",
+      "name": "Gallu",
+      "aliases": [],
+      "speedProfiles": [
+        {"label": "weakened", "baseMPS": 1.36, "condition": "weakened state"},
+        {"label": "standard", "baseMPS": 1.7, "condition": "normal state"},
+        {"label": "enraged", "baseMPS": 1.955, "condition": "enraged state"}
+      ],
+      "tells": [
+        "Has normal, enraged, and weakened states that change its hunt threshold, speed, crucifix range, and incense duration.",
+        "Normal state uses a 50% threshold and 1.7 m/s; enraged uses 60% and 1.955 m/s; weakened uses 40% and 1.36 m/s.",
+        "Burning a crucifix or ending an incense blind during a hunt can push it into the enraged state.",
+        "Ending a hunt while enraged immediately makes it weakened; stepping in salt later moves it toward normal.",
+        "Cannot disturb salt while enraged, while weakened salt footprints can last up to 3 seconds instead of 2.",
+        "Incense blinds it for 4 seconds enraged, 5 seconds normal, and 6 seconds weakened."
+      ]
+    },
+    {
+      "id": "goryo",
+      "name": "Goryo",
+      "aliases": [],
+      "speedProfiles": [{"label": "standard", "baseMPS": 1.7, "condition": "normal movement"}],
+      "tells": [
+        "Can enter a D.O.T.S. state only when no player is in its room.",
+        "Its D.O.T.S. silhouette is visible only through a video camera, not directly.",
+        "Has a 2/3 chance to enter D.O.T.S. from a roam instead of the standard 1/3 chance.",
+        "Only performs short roams and cannot change its favourite room, except through special Monkey Paw behavior.",
+        "Is less likely to roam and therefore tends to remain near its starting room.",
+        "D.O.T.S. is guaranteed as one of its evidence types on limited-evidence games."
+      ]
+    },
+    {
+      "id": "hantu",
+      "name": "Hantu",
+      "aliases": [],
+      "speedProfiles": [
+        {"label": "above 15 C", "baseMPS": 1.4, "condition": "room temperature above 15 C"},
+        {"label": "12-15 C", "baseMPS": 1.75, "condition": "room temperature from 12 C to 15 C"},
+        {"label": "9-12 C", "baseMPS": 2.1, "condition": "room temperature from 9 C to 12 C"},
+        {"label": "6-9 C", "baseMPS": 2.3, "condition": "room temperature from 6 C to 9 C"},
+        {"label": "3-6 C", "baseMPS": 2.4, "condition": "room temperature from 3 C to 6 C"},
+        {"label": "0-3 C", "baseMPS": 2.5, "condition": "room temperature from 0 C to 3 C"},
+        {"label": "below 0 C", "baseMPS": 2.7, "condition": "room temperature below 0 C"}
+      ],
+      "tells": [
+        "Hunt speed is determined by room temperature, ranging from 1.4 m/s above 15 C to 2.7 m/s below 0 C.",
+        "Changes speed as it crosses temperature bands and does not gain line-of-sight acceleration.",
+        "Emits visible freezing breath near its head every 3 seconds during a hunt when the fuse box is off.",
+        "Cannot turn the fuse box on and is twice as likely to turn it off.",
+        "Freezing Temperatures is guaranteed as one of its evidence types on limited-evidence games."
+      ]
+    },
+    {
+      "id": "jinn",
+      "name": "Jinn",
+      "aliases": [],
+      "speedProfiles": [
+        {"label": "standard", "baseMPS": 1.7, "condition": "normal movement"},
+        {"label": "ability", "baseMPS": 2.5, "condition": "breaker on, line of sight, and more than 3 m from target"}
+      ],
+      "tells": [
+        "With the fuse box on, line of sight, and more than 3 m from its target, moves at a fixed 2.5 m/s during a hunt.",
+        "Uses standard movement otherwise, while line-of-sight acceleration can build in the background during the 2.5 m/s state.",
+        "Can drain 25% sanity from a nearby player after a delay and create EMF 2 or 5 at the fuse box.",
+        "Cannot use its abilities when the fuse box is off and cannot directly turn the fuse box off.",
+        "Turning on too many lights can still indirectly trip the fuse box."
+      ]
+    },
+    {
+      "id": "kormos",
+      "name": "Kormos",
+      "aliases": [],
+      "speedProfiles": [
+        {"label": "base", "baseMPS": 1.7, "condition": "normal hunt movement"},
+        {"label": "detection waypoint", "baseMPS": 2.21, "condition": "travelling to a detection waypoint without line of sight"}
+      ],
+      "tells": [
+        "Has a 50% hunt sanity threshold, raised to 70% when a player sprints in its room.",
+        "Is nearly blind: it normally has no line of sight and only gains it within 5 m with no obstacles.",
+        "Can hear sprinting footsteps within 30 m, standing-walk footsteps within 15 m, and crouch-walk footsteps within 10 m on the same floor.",
+        "Has a 1.7 m/s base speed and moves at 1.3 times its current speed while travelling to a detection waypoint without line of sight.",
+        "Can update a detection waypoint every 5-10 seconds instead of waiting to reach the previous waypoint.",
+        "Cannot perform mist-form or chasing ghost events."
+      ]
+    },
+    {
+      "id": "mare",
+      "name": "Mare",
+      "aliases": [],
+      "localizedNames": ["Pesadilla"],
+      "speedProfiles": [{"label": "standard", "baseMPS": 1.7, "condition": "normal movement"}],
+      "tells": [
+        "Uses a 60% hunt threshold when its current room is dark and 40% when that room is lit.",
+        "Cannot turn lights on and prefers turning them off; it cannot perform the light-flicker interaction at a switch.",
+        "Has a 1/7 chance to turn a nearby light off within 1 second after a player turns it on, with a per-player 10-second cooldown.",
+        "Has an increased chance of light-shattering ghost events and can roam more when its current room is lit.",
+        "Other light sources, firelights, TVs, computers, and the fuse box do not change its hunt threshold."
+      ]
+    },
+    {
+      "id": "moroi",
+      "name": "Moroi",
+      "aliases": [],
+      "speedProfiles": [
+        {"label": "45-100 sanity", "baseMPS": 1.5, "condition": "average sanity at least 45%"},
+        {"label": "40-45 sanity", "baseMPS": 1.583, "condition": "average sanity from 40% to 45%"},
+        {"label": "35-40 sanity", "baseMPS": 1.66, "condition": "average sanity from 35% to 40%"},
+        {"label": "30-35 sanity", "baseMPS": 1.749, "condition": "average sanity from 30% to 35%"},
+        {"label": "25-30 sanity", "baseMPS": 1.832, "condition": "average sanity from 25% to 30%"},
+        {"label": "20-25 sanity", "baseMPS": 1.915, "condition": "average sanity from 20% to 25%"},
+        {"label": "15-20 sanity", "baseMPS": 1.998, "condition": "average sanity from 15% to 20%"},
+        {"label": "10-15 sanity", "baseMPS": 2.081, "condition": "average sanity from 10% to 15%"},
+        {"label": "5-10 sanity", "baseMPS": 2.164, "condition": "average sanity from 5% to 10%"},
+        {"label": "0-5 sanity", "baseMPS": 2.25, "condition": "average sanity below 5%"}
+      ],
+      "tells": [
+        "Can curse a player through a successful Spirit Box response, Parabolic Microphone sound, or Sound Recorder recording.",
+        "A curse doubles passive sanity drain in the investigation area and is removed by sanity medication.",
+        "Hunt speed rises as average sanity falls, from 1.5 m/s at 45% or higher to 2.25 m/s below 5%.",
+        "Its speed can change during a hunt as average sanity changes and can still gain normal line-of-sight acceleration.",
+        "Incense blinds it for about 7 seconds instead of the standard 5 seconds."
+      ]
+    },
+    {
+      "id": "myling",
+      "name": "Myling",
+      "aliases": [],
+      "speedProfiles": [{"label": "standard", "baseMPS": 1.7, "condition": "normal movement"}],
+      "tells": [
+        "Hunt footsteps and vocalizations are audible only within 12 m instead of the usual 20 m.",
+        "Produces paranormal sounds every 64-127 seconds instead of 80-127 seconds.",
+        "The electronic interference range remains about 10 m, allowing a sound-versus-electronics range test.",
+        "Has no unique hunt speed profile."
+      ]
+    },
+    {
+      "id": "obake",
+      "name": "Obake",
+      "aliases": [],
+      "speedProfiles": [{"label": "standard", "baseMPS": 1.7, "condition": "normal movement"}],
+      "tells": [
+        "Has a 75% chance to leave fingerprints after a valid surface interaction and a 75% chance to leave a footprint after salt.",
+        "Has about a 1/6 chance to leave unique fingerprints: six fingers, two on switches/remotes, or five on keyboards/cell doors.",
+        "Can halve the remaining duration of all existing fingerprints as an ability.",
+        "Can miss a footprint sound during a fake hunt or Music Box event.",
+        "Can briefly shapeshift into another same-gender model during a hunt, with the first shift occurring around 6-8 seconds after grace period.",
+        "Ultraviolet is guaranteed as one of its evidence types on limited-evidence games."
+      ]
+    },
+    {
+      "id": "obambo",
+      "name": "Obambo",
+      "aliases": [],
+      "speedProfiles": [
+        {"label": "calm", "baseMPS": 1.445, "condition": "calm state"},
+        {"label": "aggressive", "baseMPS": 1.955, "condition": "aggressive state"}
+      ],
+      "tells": [
+        "Starts calm, then switches state 1 minute after the exit door first opens and every 2 minutes afterward.",
+        "Calm state uses a 10% hunt threshold, 1.445 m/s speed, and activity level 90.",
+        "Aggressive state uses a 65% hunt threshold, 1.955 m/s speed, and activity level 25.",
+        "A hunt started while aggressive lasts 20% less time, even if the state changes during the hunt.",
+        "Can switch states during a hunt, causing an unexplained speed change and distinct high/low activity phases."
+      ]
+    },
+    {
+      "id": "oni",
+      "name": "Oni",
+      "aliases": [],
+      "speedProfiles": [{"label": "standard", "baseMPS": 1.7, "condition": "normal movement"}],
+      "tells": [
+        "Activity increases by 30 when a player is within 6 m or in the same room.",
+        "Cannot perform the mist-form ghost event and has a 40% chance of the chasing event instead of 20%.",
+        "Has a 2/3 chance to appear in full form during a manifestation instead of a shadow or translucent form.",
+        "Drains 20% sanity when colliding with a player during an event instead of the normal 10%.",
+        "Is visible for longer and flickers less often during hunts."
+      ]
+    },
+    {
+      "id": "onryo",
+      "name": "Onryo",
+      "aliases": [],
+      "speedProfiles": [{"label": "standard", "baseMPS": 1.7, "condition": "normal movement"}],
+      "tells": [
+        "Cannot naturally light candles, campfires, or fireplaces and is more likely to blow out flames as more players die.",
+        "After three flame blowouts, can attempt a hunt at any sanity once it exits an idle state.",
+        "A flame within 4 m prevents a normal hunt attempt by making it blow out the flame instead.",
+        "Uses a 60% hunt threshold by default and 40% while within 4 m of a flame.",
+        "A flame blown out during a hunt or while preventing a hunt still increments its blowout counter.",
+        "Can be ruled out if it naturally lights a fire source."
+      ]
+    },
+    {
+      "id": "phantom",
+      "name": "Phantom",
+      "aliases": [],
+      "localizedNames": ["Ente"],
+      "speedProfiles": [{"label": "standard", "baseMPS": 1.7, "condition": "normal movement"}],
+      "tells": [
+        "A successful photo or video makes it physically disappear from an event, D.O.T.S. state, or briefly during a hunt.",
+        "Is visible for only about 11.5-14% of hunt flicker time instead of about 31-33% for a standard ghost.",
+        "Drains 0.5% sanity per second from a nearby player in pseudo line of sight during an event or hunt.",
+        "Can roam directly to a random player and create EMF 2 at the destination near head level.",
+        "A Phantom photo contains no visible ghost and no interference pattern, aside from possible desync edge cases."
+      ]
+    },
+    {
+      "id": "poltergeist",
+      "name": "Poltergeist",
+      "aliases": [],
+      "speedProfiles": [{"label": "standard", "baseMPS": 1.7, "condition": "normal movement"}],
+      "tells": [
+        "Has a 20% chance to throw a prop when interacting and cannot successfully perform non-throw interactions with props.",
+        "Can throw objects with substantially more force than other ghosts.",
+        "Can throw every 0.5 seconds during a hunt when nearby objects are available.",
+        "Can use a multi-throw ability that throws all nearby items and drains 2% sanity per item from players in the room.",
+        "The multi-throw ability creates head-level EMF 2 while individual thrown items create EMF 3.",
+        "Is ineffective in an empty area with no throwable objects."
+      ]
+    },
+    {
+      "id": "raiju",
+      "name": "Raiju",
+      "aliases": [],
+      "speedProfiles": [
+        {"label": "standard", "baseMPS": 1.7, "condition": "away from active electronics"},
+        {"label": "electronic surge", "baseMPS": 2.5, "condition": "near active electronics during a hunt"}
+      ],
+      "tells": [
+        "Near active electronics during a hunt, uses a 2.5 m/s speed and a 65% hunt threshold.",
+        "The electronic speed range is 6 m on small maps, 8 m on medium maps, and 10 m on large maps.",
+        "Can build line-of-sight acceleration in the background while its fixed electronic speed is active.",
+        "Disrupts electronics and causes heartbeats within 15 m instead of the usual 10 m.",
+        "Active held or dropped equipment can empower it, while inventory items and several placed sensors do not count."
+      ]
+    },
+    {
+      "id": "revenant",
+      "name": "Revenant",
+      "aliases": [],
+      "speedProfiles": [
+        {"label": "undetected", "baseMPS": 1.0, "condition": "no player detected during hunt"},
+        {"label": "detected", "baseMPS": 3.0, "condition": "player detected during hunt until last known location"}
+      ],
+      "tells": [
+        "Moves at 1.0 m/s while roaming without detecting a player.",
+        "Jumps to 3.0 m/s after detecting a player through sight, voice, or electronics and holds that speed until reaching the last known location.",
+        "Slows back to 1.0 m/s over about 2.7 seconds after losing the player.",
+        "Does not gain normal continuous line-of-sight acceleration."
+      ]
+    },
+    {
+      "id": "shade",
+      "name": "Shade",
+      "aliases": [],
+      "localizedNames": ["Sombra"],
+      "speedProfiles": [{"label": "standard", "baseMPS": 1.7, "condition": "normal movement"}],
+      "tells": [
+        "Cannot interact, perform ghost events, or start a hunt when a living player is in its current room.",
+        "Cannot hunt above 35% average sanity and is generally less active than other ghosts.",
+        "At 100% average sanity it has a 0% chance of a successful ordinary ghost event, rising as sanity falls.",
+        "Cannot perform singing or appear events and has a 60% chance to perform the mist-form event.",
+        "Has a 2/3 chance to appear as a shadow during ordinary manifestations."
+      ]
+    },
+    {
+      "id": "spirit",
+      "name": "Spirit",
+      "aliases": [],
+      "localizedNames": ["Espíritu"],
+      "speedProfiles": [{"label": "standard", "baseMPS": 1.7, "condition": "normal movement"}],
+      "tells": [
+        "Has no unique movement, activity, or hunt behavior and serves as the baseline ghost.",
+        "Incense prevents it from initiating hunts for 180 seconds instead of the standard 90 seconds.",
+        "The extended incense prevention also applies when it is smudged during a hunt.",
+        "A hunt between 90 and 180 seconds after a successful incense test rules it out; a hunt after 180 seconds supports it."
+      ]
+    },
+    {
+      "id": "thaye",
+      "name": "Thaye",
+      "aliases": [],
+      "speedProfiles": [
+        {"label": "age 0", "baseMPS": 2.75, "condition": "initial age"},
+        {"label": "age 1", "baseMPS": 2.575, "condition": "one age increase"},
+        {"label": "age 2", "baseMPS": 2.4, "condition": "two age increases"},
+        {"label": "age 3", "baseMPS": 2.225, "condition": "three age increases"},
+        {"label": "age 4", "baseMPS": 2.05, "condition": "four age increases"},
+        {"label": "age 5", "baseMPS": 1.875, "condition": "five age increases"},
+        {"label": "age 6", "baseMPS": 1.7, "condition": "six age increases"},
+        {"label": "age 7", "baseMPS": 1.525, "condition": "seven age increases"},
+        {"label": "age 8", "baseMPS": 1.35, "condition": "eight age increases"},
+        {"label": "age 9", "baseMPS": 1.175, "condition": "nine age increases"},
+        {"label": "age 10+", "baseMPS": 1.0, "condition": "ten or more age increases"}
+      ],
+      "tells": [
+        "Starts at 2.75 m/s with a 75% hunt threshold and activity level 200.",
+        "Ages when a player is in the same room or within 3 m, usually retrying after 1-2 minutes or 30 seconds if nobody is nearby.",
+        "Each age reduces hunt threshold by 6%, speed by 0.175 m/s, and activity by 15%, to a minimum profile of 1.0 m/s and 15% threshold.",
+        "Does not gain line-of-sight acceleration and has a fixed 1/8 hunt-attempt chance below its current threshold.",
+        "Starts very active and dangerous, then becomes progressively quieter, slower, and less willing to hunt near players."
+      ]
+    },
+    {
+      "id": "the-mimic",
+      "name": "The Mimic",
+      "aliases": ["Mimic"],
+      "localizedNames": ["Mímico"],
+      "speedProfiles": [{"label": "copied", "baseMPS": 1.7, "condition": "copies another ghost; that ghost's conditional profiles apply"}],
+      "tells": [
+        "Can imitate every other ghost's interactions, events, hunt thresholds, speeds, and abilities, changing periodically.",
+        "Starts in a blank state, then first attempts to change 1 minute after the exit door opens and every 30 seconds to 2 minutes afterward.",
+        "Cannot copy the evidence types of the ghost it is imitating, but can copy behavior tied to evidence such as Obake fingerprints or Deogen breathing.",
+        "Always produces false Ghost Orbs in addition to its three actual evidence types, including on zero-evidence games.",
+        "A conflicting evidence and behavior combination, such as a Banshee scream with Spirit Box evidence, strongly identifies it.",
+        "Can imitate newer ghost behaviors such as Aswang, Kormos, and Deildegast."
+      ]
+    },
+    {
+      "id": "the-twins",
+      "name": "The Twins",
+      "aliases": ["Twins"],
+      "localizedNames": ["Gemelos"],
+      "speedProfiles": [
+        {"label": "slower twin", "baseMPS": 1.5, "condition": "slow hunt choice"},
+        {"label": "faster twin", "baseMPS": 1.9, "condition": "fast hunt choice"}
+      ],
+      "tells": [
+        "Can produce interactions in two locations within about 1-2 seconds, including a 20% double-interaction ability.",
+        "The large interaction range can reach much farther than a normal ghost and can mislead players about the favourite room.",
+        "Chooses a 1.5 m/s or 1.9 m/s hunt profile with equal chance, producing a subtle speed change between hunts.",
+        "The faster choice can start from the last large-range interaction location; cursed hunts still choose speed but start from the current location.",
+        "It is one ghost, so it cannot hunt or produce evidence in two places simultaneously."
+      ]
+    },
+    {
+      "id": "wraith",
+      "name": "Wraith",
+      "aliases": [],
+      "localizedNames": ["Espectro"],
+      "speedProfiles": [{"label": "standard", "baseMPS": 1.7, "condition": "normal movement"}],
+      "tells": [
+        "Never steps in or disturbs salt, including Tier III salt during a hunt.",
+        "Can teleport to a random player outside hunts and create EMF 2, with a 33% chance of EMF 5, at the player's feet.",
+        "Teleporting can create activity far from the favourite room and can cause a hunt to begin near the destination.",
+        "Does not float, walk through walls, or have quieter footsteps despite its folklore description."
+      ]
+    },
+    {
+      "id": "yokai",
+      "name": "Yokai",
+      "aliases": [],
+      "speedProfiles": [{"label": "standard", "baseMPS": 1.7, "condition": "normal movement"}],
+      "tells": [
+        "Voice chat in the same room increases its activity by 30 and temporarily raises its hunt threshold to 80%.",
+        "Without nearby talking, uses the standard 50% hunt threshold.",
+        "During hunts can hear voices and detect handheld active electronics only within 2.5 m, though line of sight is unchanged.",
+        "Requires closer proximity than other ghosts to trigger a Music Box event and its cursed hunt.",
+        "A hunt that ignores voice or electronics just outside 2.5 m can identify it, with care taken to avoid Banshee confusion."
+      ]
+    },
+    {
+      "id": "yurei",
+      "name": "Yurei",
+      "aliases": [],
+      "speedProfiles": [{"label": "standard", "baseMPS": 1.7, "condition": "normal movement"}],
+      "tells": [
+        "Can close an open linked door fully and smoothly without a creak, creating EMF 2 and draining 15% sanity from players within 7.5 m.",
+        "Its door ability cannot merely nudge a door; a partial door movement outside hunts rules it out.",
+        "Incense confines it to the favourite room for 90 seconds and prevents its D.O.T.S. state during that period.",
+        "Can affect doors more forcefully than normal when opening them, but hunt door movement is standard.",
+        "Its ability can drain sanity from dead players, including before a possible revival."
+      ]
+    }
+  ]
+}
