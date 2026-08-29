@@ -36,11 +36,11 @@ func TestNormalizeSettingsRepairsInvalidValues(t *testing.T) {
 
 func TestDefaultKeybindSettingsIncludeHuntTimers(t *testing.T) {
 	defaults := defaultKeybindSettings()
-	if defaults.StartHunt != "F10" || defaults.EndHunt != "F11" {
-		t.Fatalf("hunt timer defaults = %#v, want F10/F11", defaults)
+	if defaults.StartHunt != "F1" || defaults.EndHunt != "F2" {
+		t.Fatalf("hunt timer defaults = %#v, want F1/F2", defaults)
 	}
-	if defaults.FullReset != "F12" {
-		t.Fatalf("full reset default = %q, want F12", defaults.FullReset)
+	if defaults.FullReset != "F5" {
+		t.Fatalf("full reset default = %q, want F5", defaults.FullReset)
 	}
 	if err := defaults.validate(); err != nil {
 		t.Fatalf("default keybinds should validate: %v", err)

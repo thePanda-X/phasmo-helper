@@ -192,13 +192,14 @@ func (a *App) SetModuleLayout(moduleID string, module ModuleLayout) (OverlayLayo
 }
 
 func (a *App) ResetOverlayLayout() (OverlayLayout, error) {
+	a.mu.Lock()
+	defer a.mu.Unlock()
+
 	defaults := defaultOverlayLayout()
 	if err := saveOverlayLayout(defaults); err != nil {
-		return a.GetOverlayLayout(), err
+		return a.layout, err
 	}
-	a.mu.Lock()
 	a.layout = defaults
-	a.mu.Unlock()
 	return defaults, nil
 }
 
@@ -207,18 +208,6 @@ func (a *App) SetOverlayMode(enabled bool) bool {
 		return false
 	}
 	if enabled {
-		a.mu.RLock()
-		hasPinnedModule := false
-		for _, module := range a.layout.Modules {
-			if module.Pinned {
-				hasPinnedModule = true
-				break
-			}
-		}
-		a.mu.RUnlock()
-		if !hasPinnedModule {
-			return false
-		}
 		runtime.WindowUnmaximise(a.ctx)
 		x, y, width, height := nativeOverlayBounds()
 		runtime.WindowSetPosition(a.ctx, x, y)

@@ -168,7 +168,7 @@ export function HuntTimersModule({ moduleProps, timers }) {
                 <span>{timers.testActive ? timers.testLabel : 'LAST HUNT'}</span>
                 <strong>{timers.testActive ? timerDuration(Math.max(0, timers.testDurationMs - Math.max(0, now - timers.testStartedAt))) : timers.lastDurationMs > 0 ? timerDuration(timers.lastDurationMs) : '--:--.-'}</strong>
             </div>
-            <div className="pinned-footer"><span>{timers.testActive ? timers.testNote : 'F10 START / F11 END'}</span><span>{timers.history.length} RECORDS</span></div>
+            <div className="pinned-footer"><span>{timers.testActive ? timers.testNote : 'F1 START / F2 END'}</span><span>{timers.history.length} RECORDS</span></div>
         </ModuleFrame>
     );
 }
@@ -356,7 +356,7 @@ export function TrackerDetailsModule({ moduleProps, tracker, matches, selectedEv
                     <span>Global taps</span>
                 </label>
                 <button className="quiet-button" type="button" onClick={onResetSession}>
-                    Reset session <kbd>{displayBinding(keybinds.fullReset || 'F12')}</kbd>
+                    Reset session <kbd>{displayBinding(keybinds.fullReset || 'F5')}</kbd>
                 </button>
             </div>
 
@@ -439,10 +439,10 @@ export function HuntDetailsModule({ moduleProps, timers, selectedPreset, keybind
 
             <div className="hunt-control-row">
                 <button className="timer-button timer-button-primary" type="button" disabled={timers.active} onClick={onStartHunt}>
-                    Start hunt <kbd>{displayBinding(keybinds.startHunt || 'F10')}</kbd>
+                    Start hunt <kbd>{displayBinding(keybinds.startHunt || 'F1')}</kbd>
                 </button>
                 <button className="timer-button" type="button" disabled={!timers.active} onClick={onEndHunt}>
-                    End hunt <kbd>{displayBinding(keybinds.endHunt || 'F11')}</kbd>
+                    End hunt <kbd>{displayBinding(keybinds.endHunt || 'F2')}</kbd>
                 </button>
                 <button className="text-button" type="button" onClick={onResetTimers}>Reset timing</button>
             </div>

@@ -1,6 +1,9 @@
 package main
 
-import "testing"
+import (
+	"reflect"
+	"testing"
+)
 
 func TestNormalizeOverlayLayoutPreservesOffScreenPositions(t *testing.T) {
 	layout := OverlayLayout{Modules: map[string]ModuleLayout{
@@ -21,5 +24,26 @@ func TestDefaultOverlayLayoutCollapsesDetailModules(t *testing.T) {
 	}
 	if !layout.Modules[moduleHuntDetails].Collapsed {
 		t.Fatal("hunt details should start collapsed")
+	}
+	if layout.Modules[moduleTrackerDetails].Y >= 1080 || layout.Modules[moduleHuntDetails].Y >= 1080 {
+		t.Fatal("collapsed detail modules should start within a standard 1080p layout")
+	}
+}
+
+func TestResetOverlayLayoutRestoresAllCurrentModules(t *testing.T) {
+	t.Setenv("APPDATA", t.TempDir())
+	t.Setenv("XDG_CONFIG_HOME", t.TempDir())
+
+	app := NewApp()
+	app.layout.Modules[moduleStepTracker] = ModuleLayout{X: 900, Y: 900, Width: 400, Height: 400, Pinned: true}
+	reset, err := app.ResetOverlayLayout()
+	if err != nil {
+		t.Fatalf("reset layout: %v", err)
+	}
+	if !reflect.DeepEqual(reset, defaultOverlayLayout()) {
+		t.Fatalf("reset layout = %#v, want %#v", reset, defaultOverlayLayout())
+	}
+	if !reflect.DeepEqual(app.GetOverlayLayout(), defaultOverlayLayout()) {
+		t.Fatalf("stored layout = %#v, want %#v", app.GetOverlayLayout(), defaultOverlayLayout())
 	}
 }

@@ -10,10 +10,10 @@ export const KEYBIND_LABELS = {
 export const DEFAULT_KEYBINDS = {
     tap: 'Space',
     reset: 'F7',
-    fullReset: 'F12',
+    fullReset: 'F5',
     toggleOverlay: 'F8',
-    startHunt: 'F10',
-    endHunt: 'F11',
+    startHunt: 'F1',
+    endHunt: 'F2',
 };
 
 export const KEYBIND_ROWS = [
@@ -56,8 +56,8 @@ export function createDefaultLayout() {
             topSuspects: { x: 24, y: 230, width: 310, height: 145, pinned: false, collapsed: false },
             evidence: { x: 580, y: 670, width: 530, height: 220, pinned: false, collapsed: false },
             huntTimers: { x: 24, y: 400, width: 430, height: 214, pinned: false, collapsed: false },
-            trackerDetails: { x: 24, y: 1280, width: 530, height: 620, pinned: false, collapsed: true },
-            huntDetails: { x: 580, y: 1280, width: 630, height: 420, pinned: false, collapsed: true },
+            trackerDetails: { x: 1140, y: 24, width: 530, height: 620, pinned: false, collapsed: true },
+            huntDetails: { x: 1140, y: 90, width: 630, height: 420, pinned: false, collapsed: true },
         },
     };
 }

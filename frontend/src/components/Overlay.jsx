@@ -46,7 +46,7 @@ function HuntOverlay({ module, viewport, timers }) {
                 <span>{timers.testActive ? timers.testLabel : 'LAST HUNT'}</span>
                 <strong>{timers.testActive ? timerDuration(testRemainingMs) : timers.lastDurationMs > 0 ? timerDuration(timers.lastDurationMs) : '--:--.-'}</strong>
             </div>
-            <div className="pinned-footer"><span>{timers.testActive ? timers.testNote : 'F10 START / F11 END'}</span><span>{timers.history.length} RECORDS</span></div>
+            <div className="pinned-footer"><span>{timers.testActive ? timers.testNote : 'F1 START / F2 END'}</span><span>{timers.history.length} RECORDS</span></div>
         </article>
     );
 }

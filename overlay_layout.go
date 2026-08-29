@@ -48,10 +48,10 @@ func defaultOverlayLayout() OverlayLayout {
 			X: 24, Y: 400, Width: 430, Height: 214,
 		},
 		moduleTrackerDetails: {
-			X: 24, Y: 1280, Width: 530, Height: 620, Collapsed: true,
+			X: 1140, Y: 24, Width: 530, Height: 620, Collapsed: true,
 		},
 		moduleHuntDetails: {
-			X: 580, Y: 1280, Width: 630, Height: 420, Collapsed: true,
+			X: 1140, Y: 90, Width: 630, Height: 420, Collapsed: true,
 		},
 	}}
 }

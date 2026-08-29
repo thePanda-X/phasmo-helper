@@ -92,11 +92,10 @@ export default function App() {
     const viewportRef = useRef(viewport);
 
     const freeformDashboard = viewport.width > 980;
-    const hasPinnedModule = Object.values(layout.modules || {}).some((module) => module.pinned);
-    const overlayToggleDisabled = !overlaySupported || (!hasPinnedModule && !overlayMode);
+    const overlayToggleDisabled = !overlaySupported;
     const overlayToggleTitle = !overlaySupported
         ? 'Pinned overlay is only available on Windows'
-        : hasPinnedModule ? 'Show pinned modules over the game' : 'Pin at least one module first';
+        : 'Show pinned modules over the game';
 
     function updateGlobalTapEnabled(enabled) {
         globalTapEnabledRef.current = enabled;
@@ -247,7 +246,7 @@ export default function App() {
             };
         });
         if (started) {
-            setInputStatus(source === 'hotkey' ? 'Hunt timer started from F10' : 'Hunt timer started');
+            setInputStatus(source === 'hotkey' ? 'Hunt timer started from F1' : 'Hunt timer started');
         }
     }
 
@@ -270,7 +269,7 @@ export default function App() {
             };
         });
         if (ended) {
-            setInputStatus(source === 'hotkey' ? 'Hunt ended from F11; cooldown running' : 'Hunt ended; cooldown running');
+            setInputStatus(source === 'hotkey' ? 'Hunt ended from F2; cooldown running' : 'Hunt ended; cooldown running');
         }
     }
 
@@ -691,9 +690,9 @@ export default function App() {
         try {
             const saved = await ResetOverlayLayout();
             if (sequence === layoutSaveSequence.current) {
-                setLayout(saved);
+                setLayout(saved || createDefaultLayout());
             }
-            setCaptureStatus('Module positions and pins reset.');
+            setCaptureStatus('Module positions, pins, and collapsed states reset.');
         } catch (error) {
             setCaptureStatus(`Could not reset module layout: ${error}`);
         }

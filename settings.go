@@ -50,10 +50,10 @@ func defaultKeybindSettings() KeybindSettings {
 	return KeybindSettings{
 		Tap:           "Space",
 		Reset:         "F7",
-		FullReset:     "F12",
+		FullReset:     "F5",
 		ToggleOverlay: "F8",
-		StartHunt:     "F10",
-		EndHunt:       "F11",
+		StartHunt:     "F1",
+		EndHunt:       "F2",
 	}
 }
 
