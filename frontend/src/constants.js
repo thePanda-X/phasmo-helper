@@ -54,11 +54,13 @@ export const HUNT_TIMER_PRESETS = [
 export function createDefaultLayout() {
     return {
         modules: {
-            stepTracker: { x: 24, y: 24, width: 530, height: 620, pinned: false },
+            stepTracker: { x: 24, y: 24, width: 310, height: 185, pinned: false },
             ghostSearch: { x: 580, y: 24, width: 530, height: 620, pinned: false },
-            topSuspects: { x: 24, y: 670, width: 530, height: 220, pinned: false },
+            topSuspects: { x: 24, y: 230, width: 310, height: 145, pinned: false },
             evidence: { x: 580, y: 670, width: 530, height: 220, pinned: false },
-            huntTimers: { x: 24, y: 910, width: 1086, height: 330, pinned: false },
+            huntTimers: { x: 24, y: 400, width: 430, height: 214, pinned: false },
+            trackerDetails: { x: 24, y: 1280, width: 530, height: 620, pinned: false },
+            huntDetails: { x: 580, y: 1280, width: 630, height: 420, pinned: false },
         },
     };
 }

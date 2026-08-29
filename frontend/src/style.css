@@ -1409,6 +1409,37 @@ h3,
     backdrop-filter: blur(18px);
 }
 
+.dashboard-module.compact-module {
+    padding: 15px 16px 13px;
+    border-color: rgba(255, 255, 255, 0.32);
+    border-radius: 3px;
+    background: rgba(10, 10, 10, 0.58);
+    box-shadow: 0 14px 35px rgba(0, 0, 0, 0.45), inset 0 1px rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(16px);
+}
+
+.compact-module .pinned-header {
+    cursor: grab;
+    user-select: none;
+}
+
+.compact-module .pinned-header.is-dragging {
+    cursor: grabbing;
+}
+
+.compact-module .module-pin,
+.compact-module .module-pin:hover,
+.compact-module .module-pin.is-pinned {
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: #b5b5b5;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+}
+
 .metric-primary,
 .tap-panel,
 .metric-primary strong {

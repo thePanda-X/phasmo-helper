@@ -28,7 +28,7 @@ function ModuleFrame({ id, className, module, freeform, children, onResizeStart,
     );
 }
 
-function ModuleHeading({ id, kicker, title, className = 'section-heading', module, dragging, onDragStart, onTogglePin, children }) {
+function ModuleHeading({ id, kicker, title, className = 'section-heading', module, dragging, onDragStart, onTogglePin, pinnable = true, children }) {
     return (
         <div
             className={`${className} module-heading-line${dragging ? ' is-dragging' : ''}`}
@@ -41,17 +41,113 @@ function ModuleHeading({ id, kicker, title, className = 'section-heading', modul
             </div>
             <div className="module-actions">
                 {children}
-                <button
-                    className={`module-pin${module.pinned ? ' is-pinned' : ''}`}
-                    type="button"
-                    aria-pressed={module.pinned}
-                    title={module.pinned ? 'Hide this module from the overlay' : 'Show this module in the overlay'}
-                    onClick={() => onTogglePin(id)}
-                >
-                    {module.pinned ? 'Pinned' : 'Pin'}
-                </button>
+                {pinnable && (
+                    <button
+                        className={`module-pin${module.pinned ? ' is-pinned' : ''}`}
+                        type="button"
+                        aria-pressed={module.pinned}
+                        title={module.pinned ? 'Hide this module from the overlay' : 'Show this module in the overlay'}
+                        onClick={() => onTogglePin(id)}
+                    >
+                        {module.pinned ? 'Pinned' : 'Pin'}
+                    </button>
+                )}
             </div>
         </div>
+    );
+}
+
+function CompactModuleHeading({ id, label, module, dragging, onDragStart, onTogglePin }) {
+    return (
+        <header
+            className={`pinned-header${dragging ? ' is-dragging' : ''}`}
+            onPointerDown={(event) => onDragStart(event, id)}
+        >
+            <span>{label}</span>
+            <button
+                className={`module-pin${module.pinned ? ' is-pinned' : ''}`}
+                type="button"
+                aria-pressed={module.pinned}
+                title={module.pinned ? 'Hide this module from the overlay' : 'Show this module in the overlay'}
+                onClick={() => onTogglePin(id)}
+            >
+                {module.pinned ? 'PINNED' : 'PIN'}
+            </button>
+        </header>
+    );
+}
+
+export function StepTrackerModule({ moduleProps, tracker }) {
+    return (
+        <ModuleFrame id="stepTracker" className="pinned-module compact-module" {...moduleProps}>
+            <CompactModuleHeading id="stepTracker" label="STEP TRACKER" {...moduleProps} />
+            <div className="pinned-primary-label">OBSERVED CADENCE</div>
+            <strong className="pinned-bpm">{formatNumber(tracker.bpm)}</strong>
+            <div className="pinned-metrics">
+                <span>base <b>{formatNumber(tracker.baseSpeedMPS, 2)} m/s</b></span>
+                <span>actual <b>{formatNumber(tracker.actualSpeedMPS, 2)} m/s</b></span>
+                <span>jitter <b>{formatNumber(tracker.jitterMS)} ms</b></span>
+            </div>
+            <div className="pinned-footer"><span>{tracker.confidence.toUpperCase()} CONFIDENCE</span><span>{tracker.tapCount} taps</span></div>
+        </ModuleFrame>
+    );
+}
+
+export function TopSuspectsModule({ moduleProps, rankedGhosts, discardedGhosts, selectedEvidence }) {
+    const suspects = rankedGhosts
+        .filter((match) => !discardedGhosts.has(match.ghost.id) && matchesEvidence(match.ghost, selectedEvidence))
+        .slice(0, 3);
+    return (
+        <ModuleFrame id="topSuspects" className="pinned-module compact-module pinned-suspects-module" {...moduleProps}>
+            <CompactModuleHeading id="topSuspects" label="MOST LIKELY" {...moduleProps} />
+            <div className="pinned-suspect-list">
+                {suspects.length === 0 && <span className="pinned-empty">No ranked candidates</span>}
+                {suspects.map((match, index) => (
+                    <div className="pinned-suspect-row" key={match.ghost.id}>
+                        <span className="pinned-suspect-rank">0{index + 1}</span>
+                        <strong>{match.ghost.name}</strong>
+                        <em>+/- {Number(match.closestDistance).toFixed(2)} m/s</em>
+                    </div>
+                ))}
+            </div>
+            <div className="pinned-footer"><span>SPEED + DISCARDS</span><span>TOP 3</span></div>
+        </ModuleFrame>
+    );
+}
+
+export function HuntTimersModule({ moduleProps, timers }) {
+    const timerRunning = timers.active || timers.cooldownStartedAt > 0 || timers.testActive;
+    const [now, setNow] = useState(() => performance.now());
+    useEffect(() => {
+        setNow(performance.now());
+        if (!timerRunning) {
+            return undefined;
+        }
+        const interval = window.setInterval(() => setNow(performance.now()), 100);
+        return () => window.clearInterval(interval);
+    }, [timerRunning, timers.cooldownStartedAt, timers.huntStartedAt, timers.testStartedAt]);
+
+    const currentHuntMs = timers.active ? Math.max(0, now - timers.huntStartedAt) : timers.huntElapsedMs;
+    const currentCooldownMs = timers.cooldownStartedAt > 0 ? Math.max(0, now - timers.cooldownStartedAt) : timers.cooldownElapsedMs;
+    return (
+        <ModuleFrame id="huntTimers" className="pinned-module compact-module pinned-hunt-module" {...moduleProps}>
+            <CompactModuleHeading id="huntTimers" label="HUNT TIMING" {...moduleProps} />
+            <div className="pinned-hunt-grid">
+                <div>
+                    <span className="pinned-primary-label">CURRENT HUNT</span>
+                    <strong className="pinned-timer-value">{timers.active || timers.huntElapsedMs > 0 ? timerDuration(currentHuntMs) : '--:--.-'}</strong>
+                </div>
+                <div>
+                    <span className="pinned-primary-label">COOLDOWN</span>
+                    <strong className="pinned-timer-value">{timers.cooldownStartedAt > 0 || timers.lastCooldownMs > 0 ? timerDuration(currentCooldownMs) : '--:--.-'}</strong>
+                </div>
+            </div>
+            <div className="pinned-test-timer">
+                <span>{timers.testActive ? timers.testLabel : 'LAST HUNT'}</span>
+                <strong>{timers.testActive ? timerDuration(Math.max(0, timers.testDurationMs - Math.max(0, now - timers.testStartedAt))) : timers.lastDurationMs > 0 ? timerDuration(timers.lastDurationMs) : '--:--.-'}</strong>
+            </div>
+            <div className="pinned-footer"><span>{timers.testActive ? timers.testNote : 'F10 START / F11 END'}</span><span>{timers.history.length} RECORDS</span></div>
+        </ModuleFrame>
     );
 }
 
@@ -165,7 +261,7 @@ export function EvidenceModule({ moduleProps, selectedEvidence, onToggleEvidence
     );
 }
 
-export function StepTrackerModule({ moduleProps, tracker, matches, selectedEvidence, discardedGhosts, keybinds, globalTapEnabled, globalTapSupported, onTap, onSpeedModifierChange, onGlobalTapChange, onResetSession, onDiscardSpeedOutliers }) {
+export function TrackerDetailsModule({ moduleProps, tracker, matches, selectedEvidence, discardedGhosts, keybinds, globalTapEnabled, globalTapSupported, onTap, onSpeedModifierChange, onGlobalTapChange, onResetSession, onDiscardSpeedOutliers }) {
     const visibleMatches = matches.filter((match) => !discardedGhosts.has(match.ghost.id) && matchesEvidence(match.ghost, selectedEvidence));
     let emptyMessage = '';
     if (!tracker.ready) {
@@ -179,8 +275,8 @@ export function StepTrackerModule({ moduleProps, tracker, matches, selectedEvide
     }
 
     return (
-        <ModuleFrame id="stepTracker" className="tracker-column" {...moduleProps}>
-            <ModuleHeading id="stepTracker" kicker="LIVE MEASUREMENT" title="Footstep cadence" {...moduleProps}>
+        <ModuleFrame id="trackerDetails" className="tracker-column" {...moduleProps}>
+            <ModuleHeading id="trackerDetails" kicker="LIVE MEASUREMENT" title="Tracker details" pinnable={false} {...moduleProps}>
                 <span className="confidence-pill" data-level={tracker.confidence}>
                     {tracker.ready ? tracker.confidence.toUpperCase() : 'WAITING'}
                 </span>
@@ -275,40 +371,7 @@ export function StepTrackerModule({ moduleProps, tracker, matches, selectedEvide
     );
 }
 
-export function TopSuspectsModule({ moduleProps, tracker, rankedGhosts, selectedEvidence, discardedGhosts }) {
-    const visibleSuspects = rankedGhosts
-        .filter((match) => !discardedGhosts.has(match.ghost.id) && matchesEvidence(match.ghost, selectedEvidence))
-        .slice(0, 3);
-    const hasUndiscardedRankedGhost = rankedGhosts.some((match) => !discardedGhosts.has(match.ghost.id));
-    const emptyMessage = !tracker.ready
-        ? 'Tap footsteps to rank the current candidates.'
-        : selectedEvidence.size > 0 && hasUndiscardedRankedGhost
-            ? 'No ranked candidates support the selected evidence.'
-            : 'All ranked candidates are discarded. Restore them to continue.';
-
-    return (
-        <ModuleFrame id="topSuspects" className="suspects-column" {...moduleProps}>
-            <ModuleHeading id="topSuspects" kicker="CURRENT KNOWLEDGE" title="Most likely ghosts" {...moduleProps}>
-                <span className="subtle">{tracker.ready ? `${visibleSuspects.length} candidates` : 'Top 3'}</span>
-            </ModuleHeading>
-            <div className={`suspect-list${visibleSuspects.length === 0 ? ' empty-state' : ''}`}>
-                {visibleSuspects.length === 0 && emptyMessage}
-                {visibleSuspects.map((match, index) => (
-                    <div className="suspect-row" key={match.ghost.id}>
-                        <span className="suspect-rank">0{index + 1}</span>
-                        <div>
-                            <strong>{match.ghost.name}</strong>
-                            <span>{match.matchingProfiles.map((profile) => profile.label).join(' / ')}</span>
-                        </div>
-                        <em>+/- {Number(match.closestDistance).toFixed(2)} m/s</em>
-                    </div>
-                ))}
-            </div>
-        </ModuleFrame>
-    );
-}
-
-export function HuntTimersModule({ moduleProps, timers, selectedPreset, keybinds, onStartHunt, onEndHunt, onResetTimers, onPresetChange, onStartPreset, onStopPreset }) {
+export function HuntDetailsModule({ moduleProps, timers, selectedPreset, keybinds, onStartHunt, onEndHunt, onResetTimers, onPresetChange, onStartPreset, onStopPreset }) {
     const timerRunning = timers.active || timers.cooldownStartedAt > 0 || timers.testActive;
     const [now, setNow] = useState(() => performance.now());
     useEffect(() => {
@@ -327,8 +390,8 @@ export function HuntTimersModule({ moduleProps, timers, selectedPreset, keybinds
     const statusLevel = timers.active ? 'high' : timers.cooldownStartedAt > 0 ? 'medium' : 'low';
 
     return (
-        <ModuleFrame id="huntTimers" className="hunt-timers-column" {...moduleProps}>
-            <ModuleHeading id="huntTimers" kicker="HUNT TIMING" title="Hunt timers" {...moduleProps}>
+        <ModuleFrame id="huntDetails" className="hunt-timers-column" {...moduleProps}>
+            <ModuleHeading id="huntDetails" kicker="HUNT TIMING" title="Hunt details" pinnable={false} {...moduleProps}>
                 <span className="confidence-pill" data-level={statusLevel}>{timerStatus}</span>
             </ModuleHeading>
 

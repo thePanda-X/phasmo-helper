@@ -140,7 +140,10 @@ export function Overlay({ layout, viewport, tracker, timers, query, ghosts, rank
                     if (moduleID === 'stepTracker') {
                         return <TrackerOverlay key={moduleID} module={module} viewport={viewport} tracker={tracker} />;
                     }
-                    return <GhostSearchOverlay key={moduleID} module={module} viewport={viewport} query={query} ghosts={ghosts} discardedGhosts={discardedGhosts} selectedEvidence={selectedEvidence} />;
+                    if (moduleID === 'ghostSearch') {
+                        return <GhostSearchOverlay key={moduleID} module={module} viewport={viewport} query={query} ghosts={ghosts} discardedGhosts={discardedGhosts} selectedEvidence={selectedEvidence} />;
+                    }
+                    return null;
                 })}
             </div>
         </main>

@@ -24,8 +24,10 @@ import { EventsOn, Quit, WindowMinimise } from '../wailsjs/runtime/runtime';
 import {
     EvidenceModule,
     GhostSearchModule,
+    HuntDetailsModule,
     HuntTimersModule,
     StepTrackerModule,
+    TrackerDetailsModule,
     TopSuspectsModule,
 } from './components/Dashboard';
 import { Overlay } from './components/Overlay';
@@ -927,6 +929,10 @@ export default function App() {
                     <StepTrackerModule
                         moduleProps={moduleProps('stepTracker')}
                         tracker={tracker}
+                    />
+                    <TrackerDetailsModule
+                        moduleProps={moduleProps('trackerDetails')}
+                        tracker={tracker}
                         matches={matches}
                         selectedEvidence={selectedEvidence}
                         discardedGhosts={discardedGhosts}
@@ -941,13 +947,16 @@ export default function App() {
                     />
                     <TopSuspectsModule
                         moduleProps={moduleProps('topSuspects')}
-                        tracker={tracker}
                         rankedGhosts={rankedGhosts}
                         selectedEvidence={selectedEvidence}
                         discardedGhosts={discardedGhosts}
                     />
                     <HuntTimersModule
                         moduleProps={moduleProps('huntTimers')}
+                        timers={huntTimers}
+                    />
+                    <HuntDetailsModule
+                        moduleProps={moduleProps('huntDetails')}
                         timers={huntTimers}
                         selectedPreset={selectedPreset}
                         keybinds={keybinds}

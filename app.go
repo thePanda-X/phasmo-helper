@@ -176,7 +176,7 @@ func (a *App) GetOverlayLayout() OverlayLayout {
 }
 
 func (a *App) SetModuleLayout(moduleID string, module ModuleLayout) (OverlayLayout, error) {
-	if moduleID != moduleStepTracker && moduleID != moduleGhostSearch && moduleID != moduleTopSuspects && moduleID != moduleEvidence && moduleID != moduleHuntTimers {
+	if moduleID != moduleStepTracker && moduleID != moduleGhostSearch && moduleID != moduleTopSuspects && moduleID != moduleEvidence && moduleID != moduleHuntTimers && moduleID != moduleTrackerDetails && moduleID != moduleHuntDetails {
 		return a.GetOverlayLayout(), fmt.Errorf("unknown module %q", moduleID)
 	}
 	a.mu.Lock()

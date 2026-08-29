@@ -8,11 +8,13 @@ import (
 )
 
 const (
-	moduleStepTracker = "stepTracker"
-	moduleGhostSearch = "ghostSearch"
-	moduleTopSuspects = "topSuspects"
-	moduleEvidence    = "evidence"
-	moduleHuntTimers  = "huntTimers"
+	moduleStepTracker    = "stepTracker"
+	moduleGhostSearch    = "ghostSearch"
+	moduleTopSuspects    = "topSuspects"
+	moduleEvidence       = "evidence"
+	moduleHuntTimers     = "huntTimers"
+	moduleTrackerDetails = "trackerDetails"
+	moduleHuntDetails    = "huntDetails"
 )
 
 type ModuleLayout struct {
@@ -30,19 +32,25 @@ type OverlayLayout struct {
 func defaultOverlayLayout() OverlayLayout {
 	return OverlayLayout{Modules: map[string]ModuleLayout{
 		moduleStepTracker: {
-			X: 24, Y: 24, Width: 530, Height: 620,
+			X: 24, Y: 24, Width: 310, Height: 185,
 		},
 		moduleGhostSearch: {
 			X: 580, Y: 24, Width: 530, Height: 620,
 		},
 		moduleTopSuspects: {
-			X: 24, Y: 670, Width: 530, Height: 220,
+			X: 24, Y: 230, Width: 310, Height: 145,
 		},
 		moduleEvidence: {
 			X: 580, Y: 670, Width: 530, Height: 220,
 		},
 		moduleHuntTimers: {
-			X: 24, Y: 910, Width: 1086, Height: 330,
+			X: 24, Y: 400, Width: 430, Height: 214,
+		},
+		moduleTrackerDetails: {
+			X: 24, Y: 1280, Width: 530, Height: 620,
+		},
+		moduleHuntDetails: {
+			X: 580, Y: 1280, Width: 630, Height: 420,
 		},
 	}}
 }
