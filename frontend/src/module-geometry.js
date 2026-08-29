@@ -3,8 +3,8 @@ export function moduleGeometry(module, viewport) {
     const maxHeight = Math.max(1, viewport.height - 16);
     const width = Math.min(module.width, maxWidth);
     const height = Math.min(module.height, maxHeight);
-    const x = Math.min(Math.max(0, module.x), Math.max(0, viewport.width - width));
-    const y = Math.min(Math.max(0, module.y), Math.max(0, viewport.height - height));
+    const x = module.x;
+    const y = module.y;
     return { x, y, width, height };
 }
 

@@ -182,6 +182,7 @@ export namespace main {
 	    width: number;
 	    height: number;
 	    pinned: boolean;
+	    collapsed: boolean;
 	
 	    static createFrom(source: any = {}) {
 	        return new ModuleLayout(source);
@@ -194,6 +195,7 @@ export namespace main {
 	        this.width = source["width"];
 	        this.height = source["height"];
 	        this.pinned = source["pinned"];
+	        this.collapsed = source["collapsed"];
 	    }
 	}
 	export class OverlayLayout {

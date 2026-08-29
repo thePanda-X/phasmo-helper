@@ -301,11 +301,35 @@ body.freeform-dashboard .dashboard-module:has(.module-heading-line.is-dragging) 
     text-transform: uppercase;
 }
 
+.module-collapse {
+    padding: 5px 8px;
+    border: 1px solid rgba(116, 182, 197, 0.28);
+    border-radius: 2px;
+    background: rgba(31, 53, 60, 0.68);
+    color: #8cbfc5;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
 .module-pin:hover,
 .module-pin.is-pinned {
     border-color: rgba(125, 213, 211, 0.72);
     background: rgba(52, 94, 97, 0.78);
     color: #c6ece9;
+}
+
+.module-collapse:hover {
+    border-color: rgba(125, 213, 211, 0.72);
+    background: rgba(52, 94, 97, 0.78);
+    color: #c6ece9;
+}
+
+.compact-module-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .section-heading,
@@ -1438,6 +1462,46 @@ h3,
     font-size: 9px;
     font-weight: 700;
     letter-spacing: 0.16em;
+}
+
+.compact-module .module-collapse,
+.compact-module .module-collapse:hover {
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: #b5b5b5;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+}
+
+.dashboard-module.is-collapsed,
+.pinned-module.is-collapsed {
+    width: max-content !important;
+    height: auto !important;
+    min-height: 0;
+}
+
+.dashboard-module.is-collapsed > :not(.module-heading-line):not(.pinned-header):not(.module-resize-handle),
+.pinned-module.is-collapsed > :not(.pinned-header) {
+    display: none;
+}
+
+.dashboard-module.is-collapsed .module-resize-handle {
+    display: none;
+}
+
+.dashboard-module.is-collapsed .module-heading-line .kicker {
+    display: none;
+}
+
+.dashboard-module.is-collapsed .module-heading-line h2 {
+    margin-top: 0;
+}
+
+.pinned-module.is-collapsed .pinned-header > span:last-child {
+    display: none;
 }
 
 .metric-primary,

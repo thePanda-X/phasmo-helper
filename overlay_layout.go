@@ -18,11 +18,12 @@ const (
 )
 
 type ModuleLayout struct {
-	X      int  `json:"x"`
-	Y      int  `json:"y"`
-	Width  int  `json:"width"`
-	Height int  `json:"height"`
-	Pinned bool `json:"pinned"`
+	X         int  `json:"x"`
+	Y         int  `json:"y"`
+	Width     int  `json:"width"`
+	Height    int  `json:"height"`
+	Pinned    bool `json:"pinned"`
+	Collapsed bool `json:"collapsed"`
 }
 
 type OverlayLayout struct {
@@ -47,10 +48,10 @@ func defaultOverlayLayout() OverlayLayout {
 			X: 24, Y: 400, Width: 430, Height: 214,
 		},
 		moduleTrackerDetails: {
-			X: 24, Y: 1280, Width: 530, Height: 620,
+			X: 24, Y: 1280, Width: 530, Height: 620, Collapsed: true,
 		},
 		moduleHuntDetails: {
-			X: 580, Y: 1280, Width: 630, Height: 420,
+			X: 580, Y: 1280, Width: 630, Height: 420, Collapsed: true,
 		},
 	}}
 }
@@ -71,12 +72,6 @@ func normalizeOverlayLayout(layout OverlayLayout) OverlayLayout {
 		}
 		if module.Height < 100 || module.Height > 1400 {
 			module.Height = fallback.Height
-		}
-		if module.X < 0 {
-			module.X = fallback.X
-		}
-		if module.Y < 0 {
-			module.Y = fallback.Y
 		}
 		layout.Modules[id] = module
 	}

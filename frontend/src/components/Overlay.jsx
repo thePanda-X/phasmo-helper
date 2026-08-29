@@ -30,7 +30,7 @@ function HuntOverlay({ module, viewport, timers }) {
     const currentCooldownMs = timers.cooldownStartedAt > 0 ? Math.max(0, now - timers.cooldownStartedAt) : timers.cooldownElapsedMs;
     const testRemainingMs = timers.testActive ? Math.max(0, timers.testDurationMs - Math.max(0, now - timers.testStartedAt)) : 0;
     return (
-        <article className="pinned-module pinned-hunt-module" style={overlayGeometry(module, viewport)}>
+        <article className={`pinned-module pinned-hunt-module${module.collapsed ? ' is-collapsed' : ''}`} style={overlayGeometry(module, viewport)}>
             <header className="pinned-header"><span>HUNT TIMING</span><span>{timers.active ? 'HUNT ACTIVE' : 'PINNED'}</span></header>
             <div className="pinned-hunt-grid">
                 <div>
@@ -54,7 +54,7 @@ function HuntOverlay({ module, viewport, timers }) {
 function EvidenceOverlay({ module, viewport, selectedEvidence }) {
     const selected = EVIDENCE_OPTIONS.filter((evidence) => selectedEvidence.has(evidence.id));
     return (
-        <article className="pinned-module pinned-evidence-module" style={overlayGeometry(module, viewport)}>
+        <article className={`pinned-module pinned-evidence-module${module.collapsed ? ' is-collapsed' : ''}`} style={overlayGeometry(module, viewport)}>
             <header className="pinned-header"><span>EVIDENCE</span><span>PINNED</span></header>
             <div className="pinned-evidence-list">
                 {selected.length === 0 && <span className="pinned-empty">No evidence selected</span>}
@@ -70,7 +70,7 @@ function SuspectsOverlay({ module, viewport, rankedGhosts, discardedGhosts, sele
         .filter((match) => !discardedGhosts.has(match.ghost.id) && matchesEvidence(match.ghost, selectedEvidence))
         .slice(0, 3);
     return (
-        <article className="pinned-module pinned-suspects-module" style={overlayGeometry(module, viewport)}>
+        <article className={`pinned-module pinned-suspects-module${module.collapsed ? ' is-collapsed' : ''}`} style={overlayGeometry(module, viewport)}>
             <header className="pinned-header"><span>MOST LIKELY</span><span>PINNED</span></header>
             <div className="pinned-suspect-list">
                 {suspects.length === 0 && <span className="pinned-empty">No ranked candidates</span>}
@@ -89,7 +89,7 @@ function SuspectsOverlay({ module, viewport, rankedGhosts, discardedGhosts, sele
 
 function TrackerOverlay({ module, viewport, tracker }) {
     return (
-        <article className="pinned-module" style={overlayGeometry(module, viewport)}>
+        <article className={`pinned-module${module.collapsed ? ' is-collapsed' : ''}`} style={overlayGeometry(module, viewport)}>
             <header className="pinned-header"><span>STEP TRACKER</span><span>PINNED</span></header>
             <div className="pinned-primary-label">OBSERVED CADENCE</div>
             <strong className="pinned-bpm">{formatNumber(tracker.bpm)}</strong>
@@ -106,7 +106,7 @@ function TrackerOverlay({ module, viewport, tracker }) {
 function GhostSearchOverlay({ module, viewport, query, ghosts, discardedGhosts, selectedEvidence }) {
     const visibleGhosts = ghosts.filter((ghost) => !discardedGhosts.has(ghost.id) && matchesEvidence(ghost, selectedEvidence));
     return (
-        <article className="pinned-module pinned-ghost-module" style={overlayGeometry(module, viewport)}>
+        <article className={`pinned-module pinned-ghost-module${module.collapsed ? ' is-collapsed' : ''}`} style={overlayGeometry(module, viewport)}>
             <header className="pinned-header"><span>GHOST REFERENCE</span><span>PINNED</span></header>
             <div className="pinned-query">{query.trim() || 'all ghosts'}</div>
             <div className="pinned-ghost-list">

@@ -43,7 +43,7 @@ import {
 } from './constants';
 import { displayBinding, formatNumber, keybindFromEvent } from './utils';
 
-const FALLBACK_MODULE = { x: 24, y: 24, width: 520, height: 620, pinned: false };
+const FALLBACK_MODULE = { x: 24, y: 24, width: 520, height: 620, pinned: false, collapsed: false };
 const DEFAULT_CAPTURE_STATUS = 'Bindings are unique and support modifiers such as Ctrl + Shift + O.';
 
 function moduleFromLayout(layout, moduleID) {
@@ -486,6 +486,30 @@ export default function App() {
         }
     }
 
+    async function toggleModuleCollapsed(moduleID) {
+        const current = constrainModuleGeometry(moduleFromLayout(layout, moduleID), viewport);
+        const next = { ...current, collapsed: !current.collapsed };
+        const sequence = ++layoutSaveSequence.current;
+        setLayout((saved) => ({
+            ...saved,
+            modules: { ...saved.modules, [moduleID]: next },
+        }));
+        try {
+            const saved = await SetModuleLayout(moduleID, next);
+            if (sequence === layoutSaveSequence.current) {
+                setLayout(saved);
+            }
+        } catch (error) {
+            if (sequence === layoutSaveSequence.current) {
+                setLayout((saved) => ({
+                    ...saved,
+                    modules: { ...saved.modules, [moduleID]: current },
+                }));
+            }
+            setInputStatus(`Could not save module state: ${error}`);
+        }
+    }
+
     function startModuleDrag(event, moduleID) {
         if (overlayMode || !freeformDashboard || event.button !== 0 || event.target.closest('button, input, select')) {
             return;
@@ -535,8 +559,8 @@ export default function App() {
                 next.width = Math.max(280, Math.min(1200, Math.round(interaction.initialModule.width + event.clientX - interaction.startX)));
                 next.height = Math.max(100, Math.min(1400, Math.round(interaction.initialModule.height + event.clientY - interaction.startY)));
             } else {
-                next.x = Math.max(0, Math.round(interaction.initialModule.x + event.clientX - interaction.startX));
-                next.y = Math.max(0, Math.round(interaction.initialModule.y + event.clientY - interaction.startY));
+                next.x = Math.round(interaction.initialModule.x + event.clientX - interaction.startX);
+                next.y = Math.round(interaction.initialModule.y + event.clientY - interaction.startY);
             }
             interaction.latestModule = constrainModuleGeometry(next, viewportRef.current);
             if (interaction.type === 'resize') {
@@ -874,6 +898,7 @@ export default function App() {
             onResizeStart: startModuleResize,
             onResizeKeyDown: resizeModuleWithKeyboard,
             onTogglePin: toggleModulePin,
+            onToggleCollapsed: toggleModuleCollapsed,
         };
     }
 

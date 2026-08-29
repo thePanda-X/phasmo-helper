@@ -12,7 +12,7 @@ function ModuleFrame({ id, className, module, freeform, children, onResizeStart,
     } : undefined;
 
     return (
-        <section id={`module-${id}`} className={`${className} dashboard-module`} data-module={id} style={style}>
+        <section id={`module-${id}`} className={`${className} dashboard-module${module.collapsed ? ' is-collapsed' : ''}`} data-module={id} style={style}>
             {children}
             <div
                 className="module-resize-handle"
@@ -28,7 +28,7 @@ function ModuleFrame({ id, className, module, freeform, children, onResizeStart,
     );
 }
 
-function ModuleHeading({ id, kicker, title, className = 'section-heading', module, dragging, onDragStart, onTogglePin, pinnable = true, children }) {
+function ModuleHeading({ id, kicker, title, className = 'section-heading', module, dragging, onDragStart, onTogglePin, onToggleCollapsed, pinnable = true, children }) {
     return (
         <div
             className={`${className} module-heading-line${dragging ? ' is-dragging' : ''}`}
@@ -40,8 +40,17 @@ function ModuleHeading({ id, kicker, title, className = 'section-heading', modul
                 <h2>{title}</h2>
             </div>
             <div className="module-actions">
-                {children}
-                {pinnable && (
+                {!module.collapsed && children}
+                <button
+                    className="module-collapse"
+                    type="button"
+                    aria-expanded={!module.collapsed}
+                    title={module.collapsed ? 'Expand this module' : 'Collapse this module'}
+                    onClick={() => onToggleCollapsed(id)}
+                >
+                    {module.collapsed ? 'Expand' : 'Collapse'}
+                </button>
+                {!module.collapsed && pinnable && (
                     <button
                         className={`module-pin${module.pinned ? ' is-pinned' : ''}`}
                         type="button"
@@ -57,22 +66,35 @@ function ModuleHeading({ id, kicker, title, className = 'section-heading', modul
     );
 }
 
-function CompactModuleHeading({ id, label, module, dragging, onDragStart, onTogglePin }) {
+function CompactModuleHeading({ id, label, module, dragging, onDragStart, onTogglePin, onToggleCollapsed }) {
     return (
         <header
             className={`pinned-header${dragging ? ' is-dragging' : ''}`}
             onPointerDown={(event) => onDragStart(event, id)}
         >
             <span>{label}</span>
-            <button
-                className={`module-pin${module.pinned ? ' is-pinned' : ''}`}
-                type="button"
-                aria-pressed={module.pinned}
-                title={module.pinned ? 'Hide this module from the overlay' : 'Show this module in the overlay'}
-                onClick={() => onTogglePin(id)}
-            >
-                {module.pinned ? 'PINNED' : 'PIN'}
-            </button>
+            <div className="compact-module-actions">
+                <button
+                    className="module-collapse"
+                    type="button"
+                    aria-expanded={!module.collapsed}
+                    title={module.collapsed ? 'Expand this module' : 'Collapse this module'}
+                    onClick={() => onToggleCollapsed(id)}
+                >
+                    {module.collapsed ? 'EXPAND' : 'COLLAPSE'}
+                </button>
+                {!module.collapsed && (
+                    <button
+                        className={`module-pin${module.pinned ? ' is-pinned' : ''}`}
+                        type="button"
+                        aria-pressed={module.pinned}
+                        title={module.pinned ? 'Hide this module from the overlay' : 'Show this module in the overlay'}
+                        onClick={() => onTogglePin(id)}
+                    >
+                        {module.pinned ? 'PINNED' : 'PIN'}
+                    </button>
+                )}
+            </div>
         </header>
     );
 }
