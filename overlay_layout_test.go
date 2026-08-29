@@ -19,6 +19,9 @@ func TestNormalizeOverlayLayoutPreservesOffScreenPositions(t *testing.T) {
 
 func TestDefaultOverlayLayoutCollapsesDetailModules(t *testing.T) {
 	layout := defaultOverlayLayout()
+	if !layout.Modules[moduleStepTracker].Pinned || !layout.Modules[moduleTopSuspects].Pinned || !layout.Modules[moduleHuntTimers].Pinned {
+		t.Fatal("reference layout should pin the tracker, suspects, and hunt timers")
+	}
 	if !layout.Modules[moduleTrackerDetails].Collapsed {
 		t.Fatal("tracker details should start collapsed")
 	}

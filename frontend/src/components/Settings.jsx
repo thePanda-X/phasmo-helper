@@ -1,7 +1,7 @@
 import { KEYBIND_LABELS, KEYBIND_ROWS } from '../constants';
 import { displayBinding } from '../utils';
 
-export function Settings({ keybinds, captureAction, captureStatus, onBeginCapture, onRestoreKeybinds, onRestoreLayout }) {
+export function Settings({ keybinds, captureAction, captureStatus, onBeginCapture, onRestoreKeybinds, onRestoreLayout, onOpenSaveFolder }) {
     return (
         <main className="settings-view">
             <section className="settings-intro">
@@ -39,6 +39,7 @@ export function Settings({ keybinds, captureAction, captureStatus, onBeginCaptur
                 <div className="capture-status" role="status" aria-live="polite">{captureStatus}</div>
                 <button className="quiet-button settings-reset" type="button" onClick={onRestoreKeybinds}>Restore defaults</button>
                 <button className="quiet-button settings-reset" type="button" onClick={onRestoreLayout}>Reset module layout</button>
+                <button className="quiet-button settings-reset" type="button" title="Open the folder containing settings.json and overlay-layout.json" onClick={onOpenSaveFolder}>Open save folder</button>
             </section>
 
             <section className="settings-note">

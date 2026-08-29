@@ -8,6 +8,7 @@ import {
     GhostCatalogInfo,
     OverlayMode,
     OverlaySupported,
+    OpenSaveFolder,
     ResetKeybinds,
     ResetOverlayLayout,
     ResetTracker,
@@ -698,6 +699,15 @@ export default function App() {
         }
     }
 
+    async function openSaveFolder() {
+        try {
+            await OpenSaveFolder();
+            setCaptureStatus('Opened save folder.');
+        } catch (error) {
+            setCaptureStatus(`Could not open save folder: ${error}`);
+        }
+    }
+
     useEffect(() => {
         async function handleCaptureKey(event) {
             if (!captureAction || !settingsOpen || event.repeat) {
@@ -989,6 +999,7 @@ export default function App() {
                     onBeginCapture={beginKeybindCapture}
                     onRestoreKeybinds={restoreKeybinds}
                     onRestoreLayout={restoreLayout}
+                    onOpenSaveFolder={openSaveFolder}
                 />
             </div>
 

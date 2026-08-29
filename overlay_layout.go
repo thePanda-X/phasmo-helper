@@ -33,25 +33,25 @@ type OverlayLayout struct {
 func defaultOverlayLayout() OverlayLayout {
 	return OverlayLayout{Modules: map[string]ModuleLayout{
 		moduleStepTracker: {
-			X: 24, Y: 24, Width: 310, Height: 185,
+			X: 24, Y: 55, Width: 292, Height: 180, Pinned: true,
 		},
 		moduleGhostSearch: {
-			X: 580, Y: 24, Width: 530, Height: 620,
+			X: 1276, Y: 87, Width: 579, Height: 850,
 		},
 		moduleTopSuspects: {
-			X: 24, Y: 230, Width: 310, Height: 145,
+			X: 24, Y: 245, Width: 290, Height: 180, Pinned: true,
 		},
 		moduleEvidence: {
-			X: 580, Y: 670, Width: 530, Height: 220,
+			X: 627, Y: 124, Width: 454, Height: 304,
 		},
 		moduleHuntTimers: {
-			X: 24, Y: 400, Width: 430, Height: 214,
+			X: 10, Y: 860, Width: 431, Height: 215, Pinned: true,
 		},
 		moduleTrackerDetails: {
-			X: 1140, Y: 24, Width: 530, Height: 620, Collapsed: true,
+			X: 897, Y: 790, Width: 240, Height: 83, Collapsed: true,
 		},
 		moduleHuntDetails: {
-			X: 1140, Y: 90, Width: 630, Height: 420, Collapsed: true,
+			X: 586, Y: 801, Width: 221, Height: 85, Collapsed: true,
 		},
 	}}
 }

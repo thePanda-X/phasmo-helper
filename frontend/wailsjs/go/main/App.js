@@ -26,6 +26,10 @@ export function MatchGhosts() {
   return window['go']['main']['App']['MatchGhosts']();
 }
 
+export function OpenSaveFolder() {
+  return window['go']['main']['App']['OpenSaveFolder']();
+}
+
 export function OverlayMode() {
   return window['go']['main']['App']['OverlayMode']();
 }

@@ -51,13 +51,13 @@ export const HUNT_TIMER_PRESETS = [
 export function createDefaultLayout() {
     return {
         modules: {
-            stepTracker: { x: 24, y: 24, width: 310, height: 185, pinned: false, collapsed: false },
-            ghostSearch: { x: 580, y: 24, width: 530, height: 620, pinned: false, collapsed: false },
-            topSuspects: { x: 24, y: 230, width: 310, height: 145, pinned: false, collapsed: false },
-            evidence: { x: 580, y: 670, width: 530, height: 220, pinned: false, collapsed: false },
-            huntTimers: { x: 24, y: 400, width: 430, height: 214, pinned: false, collapsed: false },
-            trackerDetails: { x: 1140, y: 24, width: 530, height: 620, pinned: false, collapsed: true },
-            huntDetails: { x: 1140, y: 90, width: 630, height: 420, pinned: false, collapsed: true },
+            stepTracker: { x: 24, y: 55, width: 292, height: 180, pinned: true, collapsed: false },
+            ghostSearch: { x: 1276, y: 87, width: 579, height: 850, pinned: false, collapsed: false },
+            topSuspects: { x: 24, y: 245, width: 290, height: 180, pinned: true, collapsed: false },
+            evidence: { x: 627, y: 124, width: 454, height: 304, pinned: false, collapsed: false },
+            huntTimers: { x: 10, y: 860, width: 431, height: 215, pinned: true, collapsed: false },
+            trackerDetails: { x: 897, y: 790, width: 240, height: 83, pinned: false, collapsed: true },
+            huntDetails: { x: 586, y: 801, width: 221, height: 85, pinned: false, collapsed: true },
         },
     };
 }

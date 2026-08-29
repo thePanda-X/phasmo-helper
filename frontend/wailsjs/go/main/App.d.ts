@@ -16,6 +16,8 @@ export function GlobalTapSupported():Promise<boolean>;
 
 export function MatchGhosts():Promise<Array<ghosts.SpeedMatch>>;
 
+export function OpenSaveFolder():Promise<void>;
+
 export function OverlayMode():Promise<boolean>;
 
 export function OverlaySupported():Promise<boolean>;
